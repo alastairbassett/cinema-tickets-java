@@ -37,7 +37,7 @@ public class TicketRequestValidatorTest {
     }
 
     @Test
-    void shouldAcceptValidRequestForTwentyFiveAdultTickets() {
+    void shouldAcceptValidRequestForMaxNumberOfTickets() {
         //GIVEN
         TicketTypeRequest ticketRequest = new TicketTypeRequest(Type.ADULT, 25);
 
@@ -120,27 +120,6 @@ public class TicketRequestValidatorTest {
         assertFalse(ticketRequestValidator.isTicketRequestValid(validAccountId, singleAdultTicketRequest, invalidTicketTypeRequest));
     }
 
-    private static Stream<Arguments> tooManyTicketsRequests() {
-        return Stream.of(
-                Arguments.of(1, 25),
-                Arguments.of(25, 1),
-                Arguments.of(25, 25),
-                Arguments.of(100, 100),
-                Arguments.of(10, 16)
-        );
-    }
-
-    @ParameterizedTest(name = "#{index} - Should reject requests asking for {0} plus {1} tickets")
-    @MethodSource("tooManyTicketsRequests")
-    void testTooManyTicketsRequested(final int numberInFirstBatch, final int numberInSecondBatch) {
-        //GIVEN
-        TicketTypeRequest firstTicketRequest = new TicketTypeRequest(Type.ADULT, numberInFirstBatch);
-        TicketTypeRequest secondTicketRequest = new TicketTypeRequest(Type.CHILD, numberInSecondBatch);
-
-        //WHEN/THEN
-        assertFalse(ticketRequestValidator.isTicketRequestValid(validAccountId, firstTicketRequest, secondTicketRequest));
-    }
-
     @Test
     void shouldRejectChildTicketsWithNoAdultTicket() {
         //GIVEN
@@ -187,6 +166,27 @@ public class TicketRequestValidatorTest {
 
         //WHEN/THEN
         assertFalse(ticketRequestValidator.isTicketRequestValid(validAccountId, infantTicketRequest, adultTicketRequest));
+    }
+
+    private static Stream<Arguments> tooManyTicketsRequests() {
+        return Stream.of(
+                Arguments.of(1, 25),
+                Arguments.of(25, 1),
+                Arguments.of(25, 25),
+                Arguments.of(100, 100),
+                Arguments.of(10, 16)
+        );
+    }
+
+    @ParameterizedTest(name = "#{index} - Should reject requests asking for {0} plus {1} tickets")
+    @MethodSource("tooManyTicketsRequests")
+    void testTooManyTicketsRequested(final int numberInFirstBatch, final int numberInSecondBatch) {
+        //GIVEN
+        TicketTypeRequest firstTicketRequest = new TicketTypeRequest(Type.ADULT, numberInFirstBatch);
+        TicketTypeRequest secondTicketRequest = new TicketTypeRequest(Type.CHILD, numberInSecondBatch);
+
+        //WHEN/THEN
+        assertFalse(ticketRequestValidator.isTicketRequestValid(validAccountId, firstTicketRequest, secondTicketRequest));
     }
 
 }

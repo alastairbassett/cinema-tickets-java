@@ -29,20 +29,20 @@ public class TicketServiceImpl implements TicketService {
             throw new InvalidPurchaseException();
         }
 
-        int totalTicketPricePence = calculateTicketPrice(ticketTypeRequests);
+        int totalTicketPricePence = calculateTicketPrices(ticketTypeRequests);
         ticketPaymentService.makePayment(accountId, totalTicketPricePence);
 
         int numberOfSeatsToReserve = calculateNumberOfSeatsToReserve(ticketTypeRequests);
         seatReservationService.reserveSeat(accountId, numberOfSeatsToReserve);
     }
 
-    private int calculateTicketPrice(TicketTypeRequest... ticketTypeRequests) {
+    private int calculateTicketPrices(TicketTypeRequest... ticketTypeRequests) {
         return Arrays.stream(ticketTypeRequests)
-                .mapToInt(this::calculateOneTicketTypePrice)
+                .mapToInt(this::calculateTicketPricePerRequest)
                 .sum();
     }
 
-    private int calculateOneTicketTypePrice(TicketTypeRequest ticketTypeRequest) {
+    private int calculateTicketPricePerRequest(TicketTypeRequest ticketTypeRequest) {
         Type ticketType = ticketTypeRequest.getTicketType();
 
         return switch (ticketType) {

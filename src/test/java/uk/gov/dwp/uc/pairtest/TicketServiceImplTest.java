@@ -60,7 +60,7 @@ public class TicketServiceImplTest {
         verify(mockSeatReservationService).reserveSeat(accountId, 1);
     }
 
-    private static Stream<Arguments> requestsForMultipleTicketTypesAndPrices() {
+    private static Stream<Arguments> requestsAndPricesForMultipleTicketTypes() {
         //Adult tickets, child tickets, infant tickets, total ticket price in pence
         return Stream.of(
                 Arguments.of(1, 1, 1, 4000),
@@ -70,9 +70,9 @@ public class TicketServiceImplTest {
         );
     }
 
-    @ParameterizedTest(name = "#{index} - Should correctly charge {3}p for {0} adult, {1} child, and {2} infant tickets")
-    @MethodSource("requestsForMultipleTicketTypesAndPrices")
-    void testCorrectlyChargingForMultipleTickets(final int numberOfAdultTickets, final int numberOfChildTickets, final int numberOfInfantTickets, final int totalTicketCost) {
+    @ParameterizedTest(name = "#{index} - Should charge {3}p for {0} adult, {1} child, and {2} infant tickets")
+    @MethodSource("requestsAndPricesForMultipleTicketTypes")
+    void testChargingForMultipleTickets(final int numberOfAdultTickets, final int numberOfChildTickets, final int numberOfInfantTickets, final int totalTicketCost) {
         //GIVEN
         TicketTypeRequest adultTicketRequest = new TicketTypeRequest(Type.ADULT, numberOfAdultTickets);
         TicketTypeRequest childTicketRequest = new TicketTypeRequest(Type.CHILD, numberOfChildTickets);
@@ -99,7 +99,7 @@ public class TicketServiceImplTest {
         verify(mockSeatReservationService).reserveSeat(accountId, 3);
     }
 
-    private static Stream<Arguments> requestsForMultipleTicketTypesAndSeatAmounts() {
+    private static Stream<Arguments> requestsAndSeatAmountsForMultipleTicketTypes() {
         //Adult tickets, child tickets, infant tickets, number of seats to reserve
         return Stream.of(
                 Arguments.of(1, 1, 1, 2),
@@ -109,9 +109,9 @@ public class TicketServiceImplTest {
         );
     }
 
-    @ParameterizedTest(name = "#{index} - Should correctly reserve {3} seats for {0} adult, {1} child, and {2} infant tickets")
-    @MethodSource("requestsForMultipleTicketTypesAndSeatAmounts")
-    void testCorrectlyReservingSeatsForMultipleTickets(final int numberOfAdultTickets, final int numberOfChildTickets, final int numberOfInfantTickets, final int numberOfSeatsToReserve) {
+    @ParameterizedTest(name = "#{index} - Should reserve {3} seats for {0} adult, {1} child, and {2} infant tickets")
+    @MethodSource("requestsAndSeatAmountsForMultipleTicketTypes")
+    void testReservingSeatsForMultipleTickets(final int numberOfAdultTickets, final int numberOfChildTickets, final int numberOfInfantTickets, final int numberOfSeatsToReserve) {
         //GIVEN
         TicketTypeRequest adultTicketRequest = new TicketTypeRequest(Type.ADULT, numberOfAdultTickets);
         TicketTypeRequest childTicketRequest = new TicketTypeRequest(Type.CHILD, numberOfChildTickets);
