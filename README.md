@@ -4,8 +4,8 @@ Campaign Number: 399505
 
 ### Repository Overview:
 
-This repository provides a solution for the Ticket Service coding exercise. An implementation has been provided of
-`TicketServiceImpl` with request validation being performed in `TicketRequestValidator`.
+This repository provides a solution for the Ticket Service coding exercise. An implementation of `TicketServiceImpl` has
+been provided with request validation being performed in `TicketRequestValidator`.
 
 Unit tests can be found in the `src.test.java.uk.gov.dwp.uc.pairtest` package.
 
@@ -15,7 +15,7 @@ or in a Spring application these may live in an `application.properties` file.
 
 ### Assumptions:
 
-- As infants will be sitting on an adult's lap, the assumption has been made that there must be at least one adult
+- As an infant will be sitting on an adult's lap, the assumption has been made that there must be at least one adult
   ticket purchase per infant ticket.
 - Due to the assumption that the `TicketPaymentService` and `SeatReservationService` will work correctly every time they
   are called, no rollback mechanism has been included for cases such as a payment going through but the seat being
